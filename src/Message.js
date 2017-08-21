@@ -1,34 +1,22 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 
 class Message extends Component {
-
-    state = {
-        starred: this.props.message.starred,
-        selected: this.props.message.selected,
-    }
-
-    starHandler = () => {
-        this.setState({starred: !this.state.starred})
-    }
-
-    selectHandler = () => {
-        this.setState({selected: !this.state.selected})
-    }
 
     render() {
         return (
             <div className={"row message " + (this.props.message.read ? "read " : "unread ")
-            + (this.state.selected ? "selected" : "")}>
+            + (this.props.message.selected ? "selected" : "")}>
                 <div className="col-xs-1">
                     <div className="row">
                         <div className="col-xs-2">
-                            <input type="checkbox" defaultChecked={this.state.selected}
-                                   onChange={this.selectHandler}
+                            <input type="checkbox" defaultChecked={this.props.message.selected}
+                                   onChange={() => this.props.selectHandler(this.props.message.id)}
                             />
                         </div>
                         <div className="col-xs-2">
-                            <i className={"star fa " + (this.state.starred ? "fa-star" : "fa-star-o")}
-                               onClick={this.starHandler}></i>
+                            <i className={"star fa " + (this.props.message.starred ? "fa-star" : "fa-star-o")}
+                               onClick={() => this.props.starHandler(this.props.message.id)}></i>
                         </div>
                     </div>
                 </div>
@@ -40,6 +28,11 @@ class Message extends Component {
             </div>
         )
     }
+}
+
+Message.propTypes = {
+    starHandler: PropTypes.func,
+    selectHandler: PropTypes.func,
 }
 
 export default Message
