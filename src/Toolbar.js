@@ -11,8 +11,8 @@ class Toolbar extends Component {
                         unread messages
                     </p>
 
-                    <button className="btn btn-default">
-                        <i className="fa fa-minus-square-o"></i>
+                    <button className="btn btn-default" onClick={() => this.props.selectAllHandler()}>
+                        <i className={this.props.selectAllStyleHandler()}></i>
                     </button>
 
                     <button className="btn btn-default">
