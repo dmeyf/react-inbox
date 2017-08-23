@@ -10,7 +10,7 @@ class Message extends Component {
                 <div className="col-xs-1">
                     <div className="row">
                         <div className="col-xs-2">
-                            <input name="selected" type="checkbox" checked={this.props.message.selected}
+                            <input name="selected" type="checkbox" checked={!!this.props.message.selected}
                                    onChange={() => this.props.selectHandler(this.props.message.id)}
                             />
                         </div>

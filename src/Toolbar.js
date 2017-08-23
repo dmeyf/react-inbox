@@ -15,11 +15,11 @@ class Toolbar extends Component {
                         <i className={this.props.selectAllStyleHandler()}></i>
                     </button>
 
-                    <button className="btn btn-default">
+                    <button className="btn btn-default" onClick={() => this.props.markAsRead()}>
                         Mark As Read
                     </button>
 
-                    <button className="btn btn-default">
+                    <button className="btn btn-default" onClick={() => this.props.markAsUnread()}>
                         Mark As Unread
                     </button>
 

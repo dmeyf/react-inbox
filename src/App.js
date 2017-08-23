@@ -21,7 +21,7 @@ class App extends Component {
     }
 
     selectAllStyleHandler = () => {
-        const selectedMessages = this.state.messages.filter(message => message.selected === true).length
+        const selectedMessages = this.state.messages.filter(message => message.selected).length
         if (selectedMessages === 0) {
             return "fa fa-square-o"
         }
@@ -32,21 +32,41 @@ class App extends Component {
     }
 
     selectAllHandler = () => {
-        const selectedMessages = this.state.messages.filter(message => message.selected === true).length
+        const selectedMessages = this.state.messages.filter(message => message.selected).length
         const messages = this.state.messages
         if (selectedMessages < this.state.messages.length) {
             messages.forEach(message => message.selected = true)
         } else {
             messages.forEach(message => message.selected = false)
         }
-            this.setState({messages,})
+        this.setState({messages,})
+    }
+
+    markAsRead = () => {
+        const messages = this.state.messages.map((message) => {
+            if (message.selected) {
+                message.read = true
+            }
+            return message
+        })
+        this.setState({messages},)
+    }
+
+    markAsUnread = () => {
+        const messages = this.state.messages.map((message) => {
+            if (message.selected) {
+                message.read = false
+            }
+            return message
+        })
+        this.setState({messages},)
     }
 
     render() {
         return (
             <div className="App">
                 <Toolbar messages={this.state.messages} selectAllStyleHandler={this.selectAllStyleHandler}
-                         selectAllHandler={this.selectAllHandler}/>
+                         selectAllHandler={this.selectAllHandler} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread}/>
                 <MessageList messages={this.state.messages} starHandler={this.starHandler}
                              selectHandler={this.selectHandler}/>
             </div>
