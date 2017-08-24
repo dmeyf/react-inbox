@@ -2,6 +2,17 @@ import React, {Component} from 'react';
 
 class Toolbar extends Component {
 
+    selectAllStyleHandler = () => {
+        const selectedMessages = this.props.messages.filter(message => message.selected).length
+        if (selectedMessages === 0) {
+            return "fa fa-square-o"
+        }
+        if (selectedMessages === this.props.messages.length) {
+            return "fa fa-check-square-o"
+        }
+        return "fa fa-minus-square-o"
+    }
+
     render() {
         return (
             <div className="row toolbar">
@@ -12,7 +23,7 @@ class Toolbar extends Component {
                     </p>
 
                     <button className="btn btn-default" onClick={() => this.props.selectAllHandler()}>
-                        <i className={this.props.selectAllStyleHandler()}></i>
+                        <i className={this.selectAllStyleHandler()}></i>
                     </button>
 
                     <button className="btn btn-default" onClick={() => this.props.markAsRead()}>
@@ -23,14 +34,14 @@ class Toolbar extends Component {
                         Mark As Unread
                     </button>
 
-                    <select className="form-control label-select">
+                    <select className="form-control label-select" onChange={(e) => this.props.applyLabel(e)}>
                         <option>Apply label</option>
                         <option value="dev">dev</option>
                         <option value="personal">personal</option>
                         <option value="gschool">gschool</option>
                     </select>
 
-                    <select className="form-control label-select">
+                    <select className="form-control label-select" onChange={(e) => this.props.removeLabel(e)}>
                         <option>Remove label</option>
                         <option value="dev">dev</option>
                         <option value="personal">personal</option>

@@ -20,17 +20,6 @@ class App extends Component {
         this.setState({messages,})
     }
 
-    selectAllStyleHandler = () => {
-        const selectedMessages = this.state.messages.filter(message => message.selected).length
-        if (selectedMessages === 0) {
-            return "fa fa-square-o"
-        }
-        if (selectedMessages === this.state.messages.length) {
-            return "fa fa-check-square-o"
-        }
-        return "fa fa-minus-square-o"
-    }
-
     selectAllHandler = () => {
         const selectedMessages = this.state.messages.filter(message => message.selected).length
         const messages = this.state.messages
@@ -67,12 +56,35 @@ class App extends Component {
         this.setState({messages},)
     }
 
+    applyLabel = (e) => {
+        if (e.target.value !== "Apply label") {
+            const messages = this.state.messages.map((message) => {
+                if (message.selected && !message.labels.includes(e.target.value)) {
+                    message.labels.push(e.target.value)
+                }
+                return message
+            })
+            this.setState({messages},)
+        }
+    }
+
+    removeLabel = (e) => {
+        const messages = this.state.messages.map((message) => {
+            if (message.selected && message.labels.includes(e.target.value)) {
+                const index = message.labels.indexOf(e.target.value)
+                message.labels.splice(index, 1)
+            }
+            return message
+        })
+        this.setState({messages},)
+    }
+
     render() {
         return (
             <div className="App">
-                <Toolbar messages={this.state.messages} selectAllStyleHandler={this.selectAllStyleHandler}
-                         selectAllHandler={this.selectAllHandler} markAsRead={this.markAsRead}
-                         markAsUnread={this.markAsUnread} deleteMessage={this.deleteMessage}/>
+                <Toolbar messages={this.state.messages} selectAllHandler={this.selectAllHandler}
+                         markAsRead={this.markAsRead} markAsUnread={this.markAsUnread}
+                         deleteMessage={this.deleteMessage} applyLabel={this.applyLabel} removeLabel={this.removeLabel}/>
                 <MessageList messages={this.state.messages} starHandler={this.starHandler}
                              selectHandler={this.selectHandler}/>
             </div>

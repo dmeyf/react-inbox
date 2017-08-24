@@ -3,11 +3,6 @@ import PropTypes from 'prop-types'
 
 class Message extends Component {
 
-    labels = (
-        this.props.message.labels.map((label,i) => {
-            return <span key={i} className="label label-warning">{label}</span>})
-    )
-
     render() {
         return (
             <div className={"row message " + (this.props.message.read ? "read " : "unread ")
@@ -26,7 +21,8 @@ class Message extends Component {
                     </div>
                 </div>
                 <div className="col-xs-11">
-                    {this.labels}
+                    {this.props.message.labels.map((label,i) => {
+                        return <span key={i} className="label label-warning">{label}</span>})}
                     {this.props.message.subject}
                 </div>
             </div>
@@ -37,6 +33,7 @@ class Message extends Component {
 Message.propTypes = {
     starHandler: PropTypes.func,
     selectHandler: PropTypes.func,
+    message: PropTypes.object
 }
 
 export default Message
