@@ -70,8 +70,8 @@ class App extends Component {
 
     removeLabel = (e) => {
         const messages = this.state.messages.map((message) => {
-            if (message.selected && message.labels.includes(e.target.value)) {
-                const index = message.labels.indexOf(e.target.value)
+            const index = message.labels.indexOf(e.target.value)
+            if (message.selected && index !== -1) {
                 message.labels.splice(index, 1)
             }
             return message
@@ -84,7 +84,8 @@ class App extends Component {
             <div className="App">
                 <Toolbar messages={this.state.messages} selectAllHandler={this.selectAllHandler}
                          markAsRead={this.markAsRead} markAsUnread={this.markAsUnread}
-                         deleteMessage={this.deleteMessage} applyLabel={this.applyLabel} removeLabel={this.removeLabel}/>
+                         deleteMessage={this.deleteMessage} applyLabel={this.applyLabel}
+                         removeLabel={this.removeLabel}/>
                 <MessageList messages={this.state.messages} starHandler={this.starHandler}
                              selectHandler={this.selectHandler}/>
             </div>
