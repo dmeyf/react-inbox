@@ -62,11 +62,17 @@ class App extends Component {
         this.setState({messages},)
     }
 
+    deleteMessage = () => {
+        const messages = this.state.messages.filter(message => !message.selected)
+        this.setState({messages},)
+    }
+
     render() {
         return (
             <div className="App">
                 <Toolbar messages={this.state.messages} selectAllStyleHandler={this.selectAllStyleHandler}
-                         selectAllHandler={this.selectAllHandler} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread}/>
+                         selectAllHandler={this.selectAllHandler} markAsRead={this.markAsRead}
+                         markAsUnread={this.markAsUnread} deleteMessage={this.deleteMessage}/>
                 <MessageList messages={this.state.messages} starHandler={this.starHandler}
                              selectHandler={this.selectHandler}/>
             </div>
