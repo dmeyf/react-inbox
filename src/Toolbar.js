@@ -18,14 +18,14 @@ class Toolbar extends Component {
     }
 
     unreadMessageTextHandler = () => {
-        if(this.props.messages.filter(message => !message.read).length === 1) {
+        if (this.props.messages.filter(message => !message.read).length === 1) {
             return "unread message"
         }
         return "unread messages"
     }
 
     actionDisabledHandler = () => {
-        if(this.props.messages.filter(message => message.selected).length === 0) {
+        if (this.props.messages.filter(message => message.selected).length === 0) {
             return true
         }
     }
@@ -43,29 +43,36 @@ class Toolbar extends Component {
                         <i className={this.selectAllStyleHandler()}></i>
                     </button>
 
-                    <button className="btn btn-default" disabled={this.actionDisabledHandler()} onClick={() => this.props.markAsRead()}>
+                    <button className="btn btn-default" disabled={this.actionDisabledHandler()}
+                            onClick={() => this.props.markAsRead()}>
                         Mark As Read
                     </button>
 
-                    <button className="btn btn-default" disabled={this.actionDisabledHandler()} onClick={() => this.props.markAsUnread()}>
+                    <button className="btn btn-default" disabled={this.actionDisabledHandler()}
+                            onClick={() => this.props.markAsUnread()}>
                         Mark As Unread
                     </button>
 
-                    <select className="form-control label-select" disabled={this.actionDisabledHandler()} onChange={(e) => this.props.applyLabel(e)}>
+                    <select className="form-control label-select" value="Apply label"
+                            disabled={this.actionDisabledHandler()}
+                            onChange={(e) => this.props.applyLabel(e)}>
                         <option>Apply label</option>
                         <option value="dev">dev</option>
                         <option value="personal">personal</option>
                         <option value="gschool">gschool</option>
                     </select>
 
-                    <select className="form-control label-select disabled" disabled={this.actionDisabledHandler()} onChange={(e) => this.props.removeLabel(e)}>
+                    <select className="form-control label-select disabled" value="Apply label"
+                            disabled={this.actionDisabledHandler()}
+                            onChange={(e) => this.props.removeLabel(e)}>
                         <option>Remove label</option>
                         <option value="dev">dev</option>
                         <option value="personal">personal</option>
                         <option value="gschool">gschool</option>
                     </select>
 
-                    <button className="btn btn-default" disabled={this.actionDisabledHandler()} onClick={() => this.props.deleteMessage()}>
+                    <button className="btn btn-default" disabled={this.actionDisabledHandler()}
+                            onClick={() => this.props.deleteMessage()}>
                         <i className="fa fa-trash-o"></i>
                     </button>
                 </div>
