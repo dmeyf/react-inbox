@@ -2,11 +2,18 @@ import React, {Component} from 'react'
 import './App.css'
 import MessageList from './MessageList'
 import Toolbar from './Toolbar'
-import Seed from './Seed'
 
 class App extends Component {
 
-    state = {messages: Seed}
+    state = {
+        messages: []
+    }
+
+    async componentDidMount() {
+        const response = await fetch('http://localhost:3001/api/messages')
+        const json = await response.json()
+        this.setState({messages: json._embedded.messages})
+    }
 
     starHandler = (i) => {
         const messages = this.state.messages
