@@ -1,39 +1,34 @@
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-class Message extends Component {
-
-    render() {
-        return (
-            <div className={"row message " + (this.props.message.read ? "read " : "unread ")
-            + (this.props.message.selected ? "selected" : "")}>
-                <div className="col-xs-1">
-                    <div className="row">
-                        <div className="col-xs-2">
-                            <input name="selected" type="checkbox" checked={!!this.props.message.selected}
-                                   onChange={() => this.props.selectHandler(this.props.message.id)}
-                            />
-                        </div>
-                        <div className="col-xs-2">
-                            <i className={"star fa " + (this.props.message.starred ? "fa-star" : "fa-star-o")}
-                               onClick={() => this.props.starHandler(this.props.message.id)}></i>
-                        </div>
-                    </div>
+const Message = ({message, starHandler, selectHandler}) => (
+    <div className={"row message " + (message.read ? "read " : "unread ")
+    + (message.selected ? "selected" : "")}>
+        <div className="col-xs-1">
+            <div className="row">
+                <div className="col-xs-2">
+                    <input name="selected" type="checkbox" checked={!!message.selected}
+                           onChange={() => selectHandler(message.id)}
+                    />
                 </div>
-                <div className="col-xs-11">
-                    {this.props.message.labels.map((label,i) => {
-                        return <span key={i} className="label label-warning">{label}</span>})}
-                    {this.props.message.subject}
+                <div className="col-xs-2">
+                    <i className={"star fa " + (message.starred ? "fa-star" : "fa-star-o")}
+                       onClick={() => starHandler(message.id)}></i>
                 </div>
             </div>
-        )
-    }
-}
+        </div>
+        <div className="col-xs-11">
+            {message.labels.map((label,i) => {
+                return <span key={i} className="label label-warning">{label}</span>})}
+            {message.subject}
+        </div>
+    </div>
+)
 
 Message.propTypes = {
+    message: PropTypes.object,
     starHandler: PropTypes.func,
     selectHandler: PropTypes.func,
-    message: PropTypes.object
 }
 
 export default Message

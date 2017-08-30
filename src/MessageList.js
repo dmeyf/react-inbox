@@ -1,19 +1,21 @@
-import React, {Component} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Message from './Message'
 
-class MessageList extends Component {
+const MessageList = ({messages, starHandler, selectHandler}) => (
+    <div>
+        {messages.map((message, i) => {
+            return <Message key={i} message={message} starHandler={starHandler}
+                            selectHandler={selectHandler}/>
+        })
+        }
+    </div>
+)
 
-    render() {
-        return (
-            <div>
-                {this.props.messages.map((message, i) => {
-                    return <Message key={i} message={message} starHandler={this.props.starHandler}
-                                    selectHandler={this.props.selectHandler}/>
-                })
-                }
-            </div>
-        )
-    }
+MessageList.propTypes = {
+    messages: PropTypes.array,
+    selectHandler: PropTypes.func,
+    starHandler: PropTypes.func,
 }
 
 export default MessageList
