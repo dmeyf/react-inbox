@@ -44,7 +44,7 @@ class App extends Component {
 
     selectAllHandler = () => {
         const selectedMessages = this.state.messages.filter(message => message.selected).length
-        const stateCopy = Object.assign({}, this.state)
+        const stateCopy = {...this.state}
         if (selectedMessages < this.state.messages.length) {
             stateCopy.messages = this.state.messages.map(message => Object.assign({}, message, {selected: true}))
         } else {
@@ -54,7 +54,7 @@ class App extends Component {
     }
 
     markAsRead = () => {
-        const stateCopy = Object.assign({}, this.state)
+        const stateCopy = {...this.state}
         stateCopy.messages = this.state.messages.map((message) => {
             if (message.selected) {
                 return Object.assign({}, message, {read: true})
@@ -65,7 +65,7 @@ class App extends Component {
     }
 
     markAsUnread = () => {
-        const stateCopy = Object.assign({}, this.state)
+        const stateCopy = {...this.state}
         stateCopy.messages = this.state.messages.map((message) => {
             if (message.selected) {
                 return Object.assign({}, message, {read: false})
@@ -81,7 +81,7 @@ class App extends Component {
     }
 
     applyLabel = (e) => {
-        const stateCopy = Object.assign({}, this.state)
+        const stateCopy = {...this.state}
         stateCopy.messages = stateCopy.messages.map((message) => {
             if (message.selected && !message.labels.includes(e.target.value)) {
                 return Object.assign({}, message, {labels: message.labels.concat(e.target.value)})
@@ -92,7 +92,7 @@ class App extends Component {
     }
 
     removeLabel = (e) => {
-        const stateCopy = Object.assign({}, this.state)
+        const stateCopy = {...this.state}
         stateCopy.messages = stateCopy.messages.map((message) => {
             const index = message.labels.indexOf(e.target.value)
             if (message.selected && index !== -1) {
