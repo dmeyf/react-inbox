@@ -147,7 +147,6 @@ class App extends Component {
         const stateCopy = {...this.state}
         const {...message} = messageResponse
         stateCopy.messages.push(message)
-        console.log(stateCopy.messages)
         this.setState({
             messages: stateCopy.messages,
             composeVisible: false,
