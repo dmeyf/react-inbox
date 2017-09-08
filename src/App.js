@@ -3,11 +3,13 @@ import './App.css'
 import update from 'immutability-helper'
 import MessageList from './MessageList'
 import Toolbar from './Toolbar'
+import ComposeMessage from './ComposeMessage'
 
 class App extends Component {
 
     state = {
         messages: [],
+        composeVisible: false,
     }
 
     async componentDidMount() {
@@ -128,13 +130,39 @@ class App extends Component {
         this.setState({messages: stateCopy.messages})
     }
 
+    toggleComposeVisibility = () => {
+        this.setState({composeVisible: !this.state.composeVisible})
+    }
+
+    onMessageSubmit = async (body) => {
+        const response = await fetch('http://localhost:3001/api/messages', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        const messageResponse = await response.json()
+        const stateCopy = {...this.state}
+        const {...message} = messageResponse
+        stateCopy.messages.push(message)
+        console.log(stateCopy.messages)
+        this.setState({
+            messages: stateCopy.messages,
+            composeVisible: false,
+        })
+    }
+
     render() {
         return (
             <div className="App">
                 <Toolbar messages={this.state.messages} selectAllHandler={this.selectAllHandler}
                          markAsRead={this.markAsRead} markAsUnread={this.markAsUnread}
                          deleteMessage={this.deleteMessage} applyLabel={this.applyLabel}
-                         removeLabel={this.removeLabel}/>
+                         removeLabel={this.removeLabel} toggleComposeVisibility={this.toggleComposeVisibility}/>
+                {this.state.composeVisible &&
+                <ComposeMessage onMessageSubmit={this.onMessageSubmit}/>}
                 <MessageList messages={this.state.messages} starHandler={this.starHandler}
                              selectHandler={this.selectHandler}/>
             </div>

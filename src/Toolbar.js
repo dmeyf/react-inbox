@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-const Toolbar = ({messages, selectAllHandler, markAsRead, markAsUnread, applyLabel, removeLabel, deleteMessage}) => {
+const Toolbar = ({messages, selectAllHandler, markAsRead, markAsUnread, applyLabel, removeLabel, deleteMessage, toggleComposeVisibility}) => {
     const selectAllStyleHandler = (messages) => {
         const selectedMessages = messages.filter(message => message.selected).length
         if (selectedMessages === 0) {
@@ -37,6 +37,10 @@ const Toolbar = ({messages, selectAllHandler, markAsRead, markAsUnread, applyLab
                     <span className="badge badge">{unreadMessageCountHandler(messages)}</span>
                     {unreadMessageTextHandler(messages)}
                 </p>
+
+                <a className="btn btn-danger" onClick={() => toggleComposeVisibility()}>
+                    <i className="fa fa-plus"></i>
+                </a>
 
                 <button className="btn btn-default" onClick={() => selectAllHandler()}>
                     <i className={selectAllStyleHandler(messages)}></i>
@@ -87,6 +91,7 @@ Toolbar.propTypes = {
     applyLabel: PropTypes.func,
     removeLabel: PropTypes.func,
     deleteMessage: PropTypes.func,
+    toggleComposeVisibility: PropTypes.func,
 }
 
 export default Toolbar
