@@ -13,13 +13,13 @@ class App extends Component {
     }
 
     async componentDidMount() {
-        const response = await fetch('http://localhost:3001/api/messages')
+        const response = await fetch('/api/messages')
         const json = await response.json()
         this.setState({messages: json._embedded.messages})
     }
 
     async patchHandler(body) {
-        await fetch('http://localhost:3001/api/messages', {
+        await fetch('/api/messages', {
             method: 'PATCH',
             body: JSON.stringify(body),
             headers: {
@@ -135,7 +135,7 @@ class App extends Component {
     }
 
     onMessageSubmit = async (body) => {
-        const response = await fetch('http://localhost:3001/api/messages', {
+        const response = await fetch('/api/messages', {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
