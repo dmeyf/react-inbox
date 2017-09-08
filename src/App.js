@@ -16,7 +16,18 @@ class App extends Component {
         this.setState({messages: json._embedded.messages})
     }
 
-    starHandler = (i) => {
+    async patchHandler(body) {
+        await fetch('http://localhost:3001/api/messages', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    }
+
+    starHandler = async (i) => {
         const messages = update(this.state.messages, {
             [i]: {
                 starred: {
@@ -26,6 +37,7 @@ class App extends Component {
                 }
             }
         })
+        this.patchHandler({messageIds: [messages[i].id], command: 'star', star: messages[i].starred})
         this.setState({messages})
     }
 
@@ -55,51 +67,64 @@ class App extends Component {
 
     markAsRead = () => {
         const stateCopy = {...this.state}
+        const messageIdList = []
         stateCopy.messages = this.state.messages.map((message) => {
             if (message.selected) {
+                messageIdList.push(message.id)
                 return Object.assign({}, message, {read: true})
             }
             return message
         })
+        this.patchHandler({messageIds: messageIdList, command: 'read', read: true})
         this.setState({messages: stateCopy.messages})
     }
 
     markAsUnread = () => {
         const stateCopy = {...this.state}
+        const messageIdList = []
         stateCopy.messages = this.state.messages.map((message) => {
             if (message.selected) {
+                messageIdList.push(message.id)
                 return Object.assign({}, message, {read: false})
             }
             return message
         })
+        this.patchHandler({messageIds: messageIdList, command: 'read', read: false})
         this.setState({messages: stateCopy.messages})
     }
 
     deleteMessage = () => {
-        const messages = this.state.messages.filter(message => !message.selected)
-        this.setState({messages})
+        const selectedMessages = this.state.messages.filter(message => message.selected)
+        this.patchHandler({messageIds: selectedMessages.map(message => message.id), command: 'delete'})
+        this.setState({messages: this.state.messages.filter(message => !message.selected)})
     }
 
     applyLabel = (e) => {
         const stateCopy = {...this.state}
+        const messageIdList = []
         stateCopy.messages = stateCopy.messages.map((message) => {
             if (message.selected && !message.labels.includes(e.target.value)) {
+                messageIdList.push(message.id)
                 return Object.assign({}, message, {labels: message.labels.concat(e.target.value)})
             }
             return message
         })
+        this.patchHandler({messageIds: messageIdList, command: 'addLabel', label: e.target.value})
         this.setState({messages: stateCopy.messages})
     }
 
     removeLabel = (e) => {
         const stateCopy = {...this.state}
+        const messageIdList = []
         stateCopy.messages = stateCopy.messages.map((message) => {
             const index = message.labels.indexOf(e.target.value)
             if (message.selected && index !== -1) {
+                messageIdList.push(message.id)
                 return Object.assign({}, message, {labels: message.labels.filter(label => label !== e.target.value)})
             }
             return message
         })
+        this.patchHandler({messageIds: messageIdList, command: 'removeLabel', label: e.target.value})
         this.setState({messages: stateCopy.messages})
     }
 
