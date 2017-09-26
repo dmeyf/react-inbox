@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Message = ({message, starHandler, selectHandler}) => (
+const Message = ({message, starMessage, selectMessage}) => (
     <div className={"row message " + (message.read ? "read " : "unread ")
     + (message.selected ? "selected" : "")}>
         <div className="col-xs-1">
             <div className="row">
                 <div className="col-xs-2">
                     <input name="selected" type="checkbox" checked={!!message.selected}
-                           onChange={selectHandler}
+                           onChange={selectMessage}
                     />
                 </div>
                 <div className="col-xs-2">
                     <i className={"star fa " + (message.starred ? "fa-star" : "fa-star-o")}
-                       onClick={starHandler}></i>
+                       onClick={starMessage}></i>
                 </div>
             </div>
         </div>
@@ -27,8 +27,8 @@ const Message = ({message, starHandler, selectHandler}) => (
 
 Message.propTypes = {
     message: PropTypes.object,
-    starHandler: PropTypes.func,
-    selectHandler: PropTypes.func,
+    starMessage: PropTypes.func,
+    selectMessage: PropTypes.func,
 }
 
 export default Message
