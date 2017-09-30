@@ -3,11 +3,11 @@ import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {submitMessage} from "../actions/messagesActions";
 
-const ComposeMessage = ({submitMessage}) => {
+const ComposeMessage = ({submitMessage, history}) => {
 
     const onSubmitMessage = (e) => {
         e.preventDefault()
-        submitMessage(e.target.subject.value, e.target.body.value)
+        submitMessage(e.target.subject.value, e.target.body.value, history)
     }
 
     return (

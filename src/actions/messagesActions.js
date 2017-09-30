@@ -82,16 +82,7 @@ export function removeLabel(e) {
     }
 }
 
-export function toggleComposeVisibility(isVisible) {
-    return (dispatch) => {
-        dispatch({
-            type: types.TOGGLE_COMPOSE_VISIBILITY,
-            isVisible: !isVisible
-        })
-    }
-}
-
-export function submitMessage(subject, body) {
+export function submitMessage(subject, body, history) {
     return async (dispatch) => {
         const response = await fetch('/api/messages', {
             method: 'POST',
@@ -107,5 +98,6 @@ export function submitMessage(subject, body) {
             type: types.SUBMIT_MESSAGE,
             newMessage: messageResponse,
         })
+        history.push('/')
     }
 }

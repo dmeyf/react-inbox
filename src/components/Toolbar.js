@@ -1,9 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import { bindActionCreators } from 'redux'
-import {selectAllMessages, markAsRead, markAsUnread, deleteMessage, applyLabel, removeLabel, toggleComposeVisibility} from '../actions/messagesActions'
+import {bindActionCreators} from 'redux'
+import {Link, Switch, Route, withRouter} from 'react-router-dom'
+import {
+    selectAllMessages,
+    markAsRead,
+    markAsUnread,
+    deleteMessage,
+    applyLabel,
+    removeLabel,
+} from '../actions/messagesActions'
 
-const Toolbar = ({selectAllMessages, messages, markAsRead, markAsUnread, applyLabel, removeLabel, deleteMessage, toggleComposeVisibility, composeVisible}) => {
+const Toolbar = ({selectAllMessages, messages, markAsRead, markAsUnread, applyLabel, removeLabel, deleteMessage}) => {
     const selectAllStyleHandler = (messages) => {
         const selectedMessages = messages.filter(message => message.selected).length
         if (selectedMessages === 0) {
@@ -32,10 +40,6 @@ const Toolbar = ({selectAllMessages, messages, markAsRead, markAsUnread, applyLa
         }
     }
 
-    const onComposeClick = () => {
-        toggleComposeVisibility(composeVisible)
-    }
-
     return (
         <div className="row toolbar">
             <div className="col-md-12">
@@ -44,9 +48,18 @@ const Toolbar = ({selectAllMessages, messages, markAsRead, markAsUnread, applyLa
                     {unreadMessageTextHandler(messages)}
                 </p>
 
-                <a className="btn btn-danger" onClick={() => onComposeClick()}>
-                    <i className="fa fa-plus"></i>
-                </a>
+                <Switch/>
+                <Route exact path='/' render={() => (
+                    <Link to='/compose' className="btn btn-danger">
+                        <i className="fa fa-plus"></i>
+                    </Link>)}>
+                </Route>
+                <Route path='/compose' render={() => (
+                    <Link to='/' className="btn btn-danger">
+                        <i className="fa fa-plus"></i>
+                    </Link>)}>
+                </Route>
+                <Switch/>
 
                 <button className="btn btn-default" onClick={selectAllMessages}>
                     <i className={selectAllStyleHandler(messages)}></i>
@@ -91,7 +104,6 @@ const Toolbar = ({selectAllMessages, messages, markAsRead, markAsUnread, applyLa
 
 const mapStateToProps = state => ({
     messages: state.messages,
-    composeVisible: state.composeMessage.composeVisible,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -101,10 +113,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     deleteMessage,
     applyLabel,
     removeLabel,
-    toggleComposeVisibility,
 }, dispatch)
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(Toolbar)
+)(Toolbar))

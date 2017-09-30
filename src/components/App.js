@@ -4,15 +4,24 @@ import MessageList from './MessageList'
 import Toolbar from './Toolbar'
 import ComposeMessage from './ComposeMessage'
 import {connect} from 'react-redux'
+import {Router, Route} from 'react-router-dom'
+import createBrowserHistory from 'history/createBrowserHistory'
 
-const App = ({composeVisible}) => {
+const history = createBrowserHistory()
+
+const App = ({messages}) => {
 
     return (
-        <div className="App">
-            <Toolbar/>
-            {composeVisible && <ComposeMessage/>}
-            <MessageList/>
-        </div>
+        (messages.length) ?
+            (<Router history={history}>
+                <div className="App">
+                    <Toolbar/>
+                    <Route path="/compose" component={ComposeMessage} />
+                    <MessageList/>
+                </div>
+            </Router>)
+            :
+            (<div>Loading...</div>)
     )
 }
 

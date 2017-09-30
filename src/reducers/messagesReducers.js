@@ -101,11 +101,6 @@ const patchHandler = async (body) => {
 
 export function composeMessage(state={}, action) {
     switch (action.type) {
-        case types.TOGGLE_COMPOSE_VISIBILITY:
-            return {
-                ...state,
-                composeVisible: action.isVisible
-            }
         case types.SUBMIT_MESSAGE:
             return {
                 ...state,
