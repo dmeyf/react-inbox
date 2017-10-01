@@ -56,6 +56,18 @@ export function messages(messages=[], action) {
             })
             patchHandler({messageIds: [newMessages[action.index].id], command: 'star', star: newMessages[action.index].starred})
             return newMessages
+        case types.READ_MESSAGE:
+            newMessages = update(messages, {
+                [action.index]: {
+                    read: {
+                        $apply: function () {
+                            return true
+                        }
+                    }
+                }
+            })
+            patchHandler({messageIds: [newMessages[action.index].id], command: 'read', read: true})
+            return newMessages
         case types.DELETE_MESSAGE:
             newMessages = messages.filter(message => message.selected)
             patchHandler({messageIds: newMessages.map(message => message.id), command: 'delete'})
@@ -105,6 +117,11 @@ export function composeMessage(state={}, action) {
             return {
                 ...state,
                 composeVisible: false
+            }
+        case types.MESSAGE_DETAIL_RECEIVED:
+            return {
+                ...state,
+                messageBody: action.messageBody
             }
         default:
             return state

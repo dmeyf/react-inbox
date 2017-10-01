@@ -59,6 +59,11 @@ const Toolbar = ({selectAllMessages, messages, markAsRead, markAsUnread, applyLa
                         <i className="fa fa-plus"></i>
                     </Link>)}>
                 </Route>
+                <Route path='/messages' render={() => (
+                    <Link to='/compose' className="btn btn-danger">
+                        <i className="fa fa-plus"></i>
+                    </Link>)}>
+                </Route>
                 <Switch/>
 
                 <button className="btn btn-default" onClick={selectAllMessages}>

@@ -16,7 +16,7 @@ const App = ({messages}) => {
             (<Router history={history}>
                 <div className="App">
                     <Toolbar/>
-                    <Route path="/compose" component={ComposeMessage} />
+                    <Route path="/compose" component={ComposeMessage}/>
                     <MessageList/>
                 </div>
             </Router>)

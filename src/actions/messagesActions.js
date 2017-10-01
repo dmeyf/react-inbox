@@ -11,6 +11,17 @@ export function fetchMessages() {
     }
 }
 
+export function fetchMessageBody(i) {
+    return async (dispatch) => {
+        const response = await fetch(`/api/messages/${i}`)
+        const json = await response.json()
+        dispatch({
+            type: types.MESSAGE_DETAIL_RECEIVED,
+            messageBody: json.body
+        })
+    }
+}
+
 export function selectAllMessages() {
     return dispatch => {
         dispatch({
@@ -50,6 +61,15 @@ export function starMessage(i) {
     return async (dispatch) => {
         dispatch({
             type: types.STAR_MESSAGE,
+            index: i
+        })
+    }
+}
+
+export function readMessage(i) {
+    return async (dispatch) => {
+        dispatch({
+            type: types.READ_MESSAGE,
             index: i
         })
     }
